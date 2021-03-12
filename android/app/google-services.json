@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "25333460728",
+    "project_id": "lucky-water-reminder-7ecaa",
+    "storage_bucket": "lucky-water-reminder-7ecaa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25333460728:android:b4e0b3b09072467aef550d",
+        "android_client_info": {
+          "package_name": "com.example.cup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25333460728-7pvvnt21ds3ndb6n7grim7absi4vk468.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLp78uCt5UdR_U77WehOI4Wh79RuWyypg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25333460728-7pvvnt21ds3ndb6n7grim7absi4vk468.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
