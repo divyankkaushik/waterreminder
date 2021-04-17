@@ -45,192 +45,189 @@ class _HomeTabState extends State<HomeTab> {
     final drinkProvider = Provider.of<DrinkProvider>(context);
     return Column(
       children: [
-        Expanded(
-          flex: 3,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: Column(
-                children: [
-                  Text(
-                    "GOAL",
-                    style: goalTextStyle,
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      StreamBuilder<DocumentSnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection('Goal')
-                              .doc(uid)
-                              .collection("TodayTotalAmount")
-                              .doc(uid)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return CircularProgressIndicator();
-                            } else {
-                              return Text(
-                                (snapshot.data.exists)
-                                    ? "${snapshot.data["todayTotalAmount"]}"
-                                    : "0",
-                                style: goalTextStyle,
-                              );
-                            }
-                          }),
-                      Text(
-                        "  /  ",
-                        style: goalTextStyle,
-                      ),
-                      StreamBuilder<DocumentSnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection('Goal')
-                              .doc(uid)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.data == null)
-                              return CircularProgressIndicator();
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Column(
+              children: [
+                Text(
+                  "GOAL",
+                  style: goalTextStyle,
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    StreamBuilder<DocumentSnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('Goal')
+                            .doc(uid)
+                            .collection("TodayTotalAmount")
+                            .doc(uid)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return LoadingWidget();
+                          } else {
                             return Text(
                               (snapshot.data.exists)
-                                  ? snapshot.data["goal"]
+                                  ? "${snapshot.data["todayTotalAmount"]}"
                                   : "0",
                               style: goalTextStyle,
                             );
-                          }),
-                      Text(
-                        "  ml",
-                        style: goalTextStyle,
+                          }
+                        }),
+                    Text(
+                      "  /  ",
+                      style: goalTextStyle,
+                    ),
+                    StreamBuilder<DocumentSnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('Goal')
+                            .doc(uid)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.data == null)
+                            return LoadingWidget();
+                          return Text(
+                            (snapshot.data.exists)
+                                ? snapshot.data["goal"]
+                                : "0",
+                            style: goalTextStyle,
+                          );
+                        }),
+                    Text(
+                      "  ml",
+                      style: goalTextStyle,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          drinkProvider.amount = 100;
+                          drinkProvider.setDrinkAmount();
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/images/100ml.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            Text(
+                              "100 ml",
+                              style: amountTextStyle,
+                            ),
+                          ],
+                        ),
                       ),
+                      GestureDetector(
+                        onTap: () {
+                          drinkProvider.amount = 200;
+                          drinkProvider.setDrinkAmount();
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/images/200ml.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            Text(
+                              "200 ml",
+                              style: amountTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          drinkProvider.amount = 300;
+                          drinkProvider.setDrinkAmount();
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/images/300ml.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            Text(
+                              "300 ml",
+                              style: amountTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          drinkProvider.amount = 400;
+                          drinkProvider.setDrinkAmount();
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/images/400ml.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            Text(
+                              "400 ml",
+                              style: amountTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          drinkProvider.amount = 500;
+                          drinkProvider.setDrinkAmount();
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/images/500ml.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            Text(
+                              "500 ml",
+                              style: amountTextStyle,
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            drinkProvider.amount = 100;
-                            drinkProvider.setDrinkAmount();
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                'assets/images/100ml.png',
-                                width: 50,
-                                height: 50,
-                              ),
-                              SizedBox(
-                                height: 15.0,
-                              ),
-                              Text(
-                                "100 ml",
-                                style: amountTextStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            drinkProvider.amount = 200;
-                            drinkProvider.setDrinkAmount();
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                'assets/images/200ml.png',
-                                width: 50,
-                                height: 50,
-                              ),
-                              SizedBox(
-                                height: 15.0,
-                              ),
-                              Text(
-                                "200 ml",
-                                style: amountTextStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            drinkProvider.amount = 300;
-                            drinkProvider.setDrinkAmount();
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                'assets/images/300ml.png',
-                                width: 50,
-                                height: 50,
-                              ),
-                              SizedBox(
-                                height: 15.0,
-                              ),
-                              Text(
-                                "300 ml",
-                                style: amountTextStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            drinkProvider.amount = 400;
-                            drinkProvider.setDrinkAmount();
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                'assets/images/400ml.png',
-                                width: 50,
-                                height: 50,
-                              ),
-                              SizedBox(
-                                height: 15.0,
-                              ),
-                              Text(
-                                "400 ml",
-                                style: amountTextStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            drinkProvider.amount = 500;
-                            drinkProvider.setDrinkAmount();
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                'assets/images/500ml.png',
-                                width: 50,
-                                height: 50,
-                              ),
-                              SizedBox(
-                                height: 15.0,
-                              ),
-                              Text(
-                                "500 ml",
-                                style: amountTextStyle,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
           ),
         ),
@@ -238,7 +235,10 @@ class _HomeTabState extends State<HomeTab> {
             future: getAmountList(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: LoadingWidget());
+                return Center(child: Padding(
+                  padding: const EdgeInsets.only(top: 150.0),
+                  child: LoadingWidget(),
+                ));
               } else {
                 return Expanded(
                   key: UniqueKey(),
@@ -249,7 +249,7 @@ class _HomeTabState extends State<HomeTab> {
                       return Dismissible(
                         key: UniqueKey(),
                         background: Container(
-                          color: Colors.red,
+                          color: Theme.of(context).primaryColor,
                         ),
                         // Can implement undo feature
                         onDismissed: (direction) {
@@ -291,6 +291,21 @@ class _HomeTabState extends State<HomeTab> {
                             subtitle: Text(
                               snapshot.data[index].data()["dateTime"],
                               style: listTextStyle,
+                            ),
+                            trailing: IconButton(
+                              icon: Icon(
+                                Icons.delete,
+                                color: Theme.of(context).primaryColor,
+                                size: 30.0,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  drinkProvider.removeDrinkAmount(
+                                      snapshot.data[index].id);
+                                  drinkProvider.todayTotalAmount -=
+                                      snapshot.data[index].data()["Amount"];
+                                });
+                              },
                             ),
                           ),
                         ),

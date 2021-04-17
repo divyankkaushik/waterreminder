@@ -1,5 +1,3 @@
-import 'package:cup/screens/create_goal_screen.dart';
-import 'package:cup/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,14 +23,10 @@ class Auth extends ChangeNotifier {
     return _firebaseAuth.authStateChanges();
   }
 
-  Future signInWithGoogle(context) async {
+  Future signInWithGoogle(context, Function afterButtonPressed) async {
     try {
       final googleUser = await _googleSignIn.signIn();
       final googleAuth = await googleUser.authentication;
-
-      _googleSignIn.signIn().then((value) {
-        Navigator.of(context).pushNamed(CreateGoalScreen.routeName);
-      });
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -41,7 +35,7 @@ class Auth extends ChangeNotifier {
 
       final user = await _firebaseAuth.signInWithCredential(credential);
       await _firebaseAuth.signInWithCredential(credential).then((value) {
-        Navigator.of(context).pushNamed(Homescreen.routeName);
+        afterButtonPressed();
       });
       notifyListeners();
       return user.user.uid;

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 class SettingsScreen extends StatefulWidget {
+  static const routeName = "/Settings-screen";
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -81,7 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             return IconButton(
               icon: const Icon(
                 Icons.arrow_back,
-                size: 30.0,
+                size: 25.0,
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -102,8 +103,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromRGBO(155, 117, 255, 1).withOpacity(0.5),
-                Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                Colors.blue[900],
+                Colors.blue[300],
               ],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,

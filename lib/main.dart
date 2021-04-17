@@ -1,13 +1,16 @@
+import 'package:cup/plugin/notification_plugin.dart';
 import 'package:cup/providers/drink_provider.dart';
 import 'package:cup/providers/goal_provider.dart';
 import 'package:cup/screens/create_goal_screen.dart';
+import 'package:cup/screens/drink_stats_screen.dart';
 import 'package:cup/screens/home_screen.dart';
 import 'package:cup/screens/login_screen.dart';
+import 'package:cup/screens/settings_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
+// import 'package:timezone/data/latest.dart' as tz;
+// import 'package:timezone/timezone.dart' as tz;
 
 import 'package:provider/provider.dart';
 import 'package:hive/hive.dart';
@@ -15,50 +18,41 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:cup/providers/auth.dart';
 import 'package:cup/root_page.dart';
+import 'package:workmanager/workmanager.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+NotificationAppLaunchDetails notifLaunch;
 
-Future selectNotification(String payload) async {
-  if (payload != null) {
-    debugPrint('notification payload: $payload');
+void callbackDispatcher() {
+  int hour = DateTime.now().hour;
+  if (hour >= 8 && hour <= 22) {
+    Workmanager.executeTask((task, inputData) {
+      showNotificationPeriodically(
+        flutterLocalNotificationsPlugin,
+        "0",
+        "Drink Water",
+      );
+      return Future.value(true);
+    });
   }
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  tz.initializeTimeZones();
-  tz.setLocalLocation(tz.getLocation("Asia/Dili"));
   await Hive.initFlutter();
   await Hive.openBox<int>('steps');
 
-// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('ic_launcher');
-  final MacOSInitializationSettings initializationSettingsMacOS =
-      MacOSInitializationSettings();
-  final InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      // iOS: initializationSettingsIOS,
-      macOS: initializationSettingsMacOS);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: selectNotification);
-
-  await flutterLocalNotificationsPlugin.zonedSchedule(
-      0,
-      'Drink Water Reminder',
-      'Time to drink water',
-      tz.TZDateTime.now(tz.local).add(const Duration(minutes: 1)),
-      const NotificationDetails(
-          android: AndroidNotificationDetails(
-        'your channel id',
-        'Drink Water Reminder',
-        'Time to drink water',
-      )),
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime);
+  Workmanager.initialize(callbackDispatcher);
+  Workmanager.registerPeriodicTask(
+    "sendnotification",
+    "atask",
+    frequency: Duration(hours: 1),
+  );
+  notifLaunch =
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  initNotificatioin(flutterLocalNotificationsPlugin);
 
   runApp(
     MultiProvider(
@@ -77,6 +71,20 @@ void main() async {
     ),
   );
 }
+
+// int blackPrimaryValue = 0xFF000000;
+// Map<int, Color> color = {
+//   50: Color(0xFF000000),
+//   100: Color(0xFF000000),
+//   200: Color(0xFF000000),
+//   300: Color(0xFF000000),
+//   400: Color(0xFF000000),
+//   500: Color(0xFF000000),
+//   600: Color(0xFF000000),
+//   700: Color(0xFF000000),
+//   800: Color(0xFF000000),
+//   900: Color(0xFF000000),
+// };
 
 class MyApp extends StatelessWidget {
   @override
@@ -98,6 +106,8 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName: (context) => LoginScreen(),
           Homescreen.routeName: (context) => Homescreen(),
           CreateGoalScreen.routeName: (context) => CreateGoalScreen(),
+          SettingsScreen.routeName: (context) => SettingsScreen(),
+          DrinkStatsScreen.routeName: (context) => DrinkStatsScreen(),
         },
       ),
     );
